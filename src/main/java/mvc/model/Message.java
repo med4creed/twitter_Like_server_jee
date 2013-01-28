@@ -3,6 +3,7 @@ package mvc.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,11 +32,11 @@ public class Message implements Serializable {
 	private Date dateCreation = new Date();
 
 	@JsonManagedReference("user_msg")
-	@ManyToOne
+	@ManyToOne (cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private Utilisateur user;
 
 	@JsonManagedReference("grp_msg")
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private Groupe grp;
 
 	public Message() {

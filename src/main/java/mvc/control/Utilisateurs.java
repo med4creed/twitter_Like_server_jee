@@ -22,6 +22,7 @@ import javax.ws.rs.core.Response.Status;
 
 import mvc.model.Dao;
 import mvc.model.Groupe;
+import mvc.model.Message;
 import mvc.model.Utilisateur;
 
 import org.codehaus.jackson.JsonParseException;
@@ -559,6 +560,21 @@ public class Utilisateurs {
 
 			// Transaciton
 			utx.begin();
+			List<Message> msgs = dao.getAllMesagesByUserId(id);
+			for (Message m:msgs){
+				dao.deleteMesage(m);
+			}
+			List<Groupe> grps = dao.getAllGrpsByAdminId(id);
+			for (Groupe g:grps){
+				dao.deleteGrp(g);
+			}
+			List<Utilisateur> users = dao.getAllUsers();
+			for (Utilisateur u:users){
+				if(u.getUserToFollow().contains(dao.getUserById(id))){
+					u.getUserToFollow().remove(dao.getUserById(id));
+				}
+			}
+			
 			dao.deleteUserById(id);
 			utx.commit();
 

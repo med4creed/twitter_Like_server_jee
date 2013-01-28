@@ -47,7 +47,7 @@ public class Groupe implements Serializable {
 	private List<Utilisateur> members = new ArrayList<Utilisateur>();
 
 	@JsonManagedReference("userAdmin_grp")
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private Utilisateur userAdmin;
 
 	@JsonBackReference("grp_msg")
